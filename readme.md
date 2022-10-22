@@ -15,7 +15,8 @@ This project will help you find a good food match for your wine or vice versa. T
 - Figma
 - GitHub
 - Vercel
-- Spoonacular API
+- Spoonacular API [link to documentation](https://spoonacular.com/food-api/docs#Dish-Pairing-for-Wine)
+
 
 
 ### Wireframes
