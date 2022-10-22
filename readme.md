@@ -1,6 +1,7 @@
 # Pocket Sommelier
 
-#####Food and Wine Pairing Guide. 
+##### Food and Wine Pairing Guide. 
+
 This project will help you find a good food match for your wine or vice versa. The app presents you with two search options, one that will look for a food pairing for the specific wine, and other will look for a wine pairing for the choice of food. The search result will display on the page with the serving recommendations, wine descriptions and images. 
 
 
