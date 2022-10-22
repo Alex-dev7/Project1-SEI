@@ -48,5 +48,5 @@ function getRecomandation(wineType) {
 
 }
 
-getRecomandation("merlot")
+
 
