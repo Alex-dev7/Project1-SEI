@@ -2,6 +2,11 @@ const api_key = "2021cd53d5d342ad86dd928fbbf86f2f"
 
 const base_url = "https://api.spoonacular.com/food/wine/"
 
+const $title = $('.title')
+const $pairings = $('.pairings')
+const $image = $('.image')
+const $description = $('.description')
+
 // this function will be called when searching for a type of wine 
 function getTheWinePair(wine) {
     const url = `${base_url}dishes?apiKey=${api_key}&wine=${wine}`
@@ -12,6 +17,15 @@ function getTheWinePair(wine) {
     $.ajax(url)
     .then((pair) => {
         console.log(pair)
+        const $section = $('.section3')
+
+        $title.html(`
+        <h3>${wine}</h3>
+        `)
+        $pairings.html(`
+        <ul></ul>
+        `)
+
     })
     
 }
@@ -48,5 +62,14 @@ function getRecomandation(wineType) {
 
 }
 
+// getTheWinePair("pinot grigio")
 
+const pai = ["merlot", "chardoney", "pinot noir"]
 
+function makeListElements(arr) {
+    const ul = document.createElement('ul')
+    ul.append()
+     for(let i of arr) {
+
+     }
+}
