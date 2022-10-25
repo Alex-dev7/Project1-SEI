@@ -1,4 +1,4 @@
-const api_key = "2021cd53d5d342ad86dd928fbbf86f2f"
+const api_key = "n"
 
 const base_url = "https://api.spoonacular.com/food/wine/"
 
