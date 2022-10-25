@@ -7,6 +7,8 @@ const $title = $('.title')
 const $ulPairings = $('.ulPairings')
 const $image = $('.image')
 const $description = $('.description')
+const $wineButton = $('#wineButton')
+const $foodButton = $('#foodButton')
 
 // this function will be called when searching for a type of wine 
 function getTheWinePair(wine) {
@@ -22,6 +24,7 @@ function getTheWinePair(wine) {
         $title.html(`
         <h3>${wine}</h3>
         `)
+        console.log($title)
         
         //save the parameter into a variable
        const $items = pair.pairings
@@ -77,9 +80,6 @@ function getTheDishPair(dish) {
        // show the wine descrition on the page   
        $description.html(`<p>${pair.pairingText}</p>`)
 
-
-
-
     })
 
 
@@ -92,14 +92,12 @@ function getRecomandation(link) {
     //https://api.spoonacular.com/food/wine/recommendation?wine=merlot&number=2
     //minRaiting parameter
     
-
     console.log(url)
 
     $.ajax(url)
     .then((info) => {
         console.log(info)
         
-
         $section3.empty()
 
          //save the parameter into a variable
@@ -111,15 +109,43 @@ function getRecomandation(link) {
         $ulPairings.append(`<li>${$items[i].title}</li>`)
        }
         
-
-
     })
 
-
 }
+
+//click event for the type of wine button
+$wineButton.on("click", (event) => {
+     //prevent refresh
+     event.preventDefault()
+    
+      //grab the text from the input
+     const inputText = $(".wine-pair input[type=text]").val()
+
+      // update section3 with api data
+     getTheWinePair(inputText)
+
+     //clear input space after submiting the form
+     $("#myInput").val('')
+})
+
+$foodButton.on("click", (event) => {
+    //prevent refresh
+    event.preventDefault()
+   
+     //grab the text from the input
+    const inputText = $(".food-pair input[type=text]").val()
+
+     // update section3 with api data
+    getTheDishPair(inputText)
+
+    //clear input space after submiting the form
+    $("#myInput").val('')
+})
+
+
 // getRecomandation('pinot noir')
 
 
-// getTheWinePair("Sauvignon Blanc")
+
 
 // getTheDishPair("fish")

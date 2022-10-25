@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=BhuTuka+Expanded+One&family=Dorsa&family=Island+Moments&display=swap" rel="stylesheet">
     <script
   src="https://code.jquery.com/jquery-3.6.1.js"
   integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
@@ -14,35 +17,42 @@
     <script src="/app.js" defer></script>
 </head>
 <body>
+ 
   <header>
-    <h1>Pocket Sommelier</h1>
+    <div class="shade">
+      <h1>Pocket Sommelier</h1>
+    </div>
+  
+    
   </header>
     
     <main>
       <div class="section1">
          <form class="wine-pair">
-             <input type="text" placeholder="type of wine">
-             <input type="submit" value="pair">
+             <input id="myInput" type="text" placeholder="type of wine">
+             <input id="wineButton" type="submit" value="pair">
           </form>
       </div>
       <div class="section2">
         <form class="food-pair">
-          <input type="text" placeholder="type of wine">
-          <input type="submit" value="pair">
+          <input id="myInput" type="text" placeholder="type of wine">
+          <input id="foodButton" type="submit" value="pair">
        </form>
       </div>
       <div class="section3">
         <div class="item1 title"></div>
         <div class="item2 pairings">
-          <ul class="ulPairings"></ul>
+          <ul class="ulPairings">
+          </ul>
         </div>
-        <div class="item3 image"></div>
+        <div class="item3 image">
+        </div>
         <div class="item4 description"></div>
       </div>
     </main>
 
     <footer>
-       
+       <p>Copyrigh 2022</p>
     </footer>
 </body>
 </html> 
