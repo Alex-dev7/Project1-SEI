@@ -142,10 +142,3 @@ $foodButton.on("click", (event) => {
     $("#myInput").val('')
 })
 
-
-// getRecomandation('pinot noir')
-
-
-
-
-// getTheDishPair("fish")
