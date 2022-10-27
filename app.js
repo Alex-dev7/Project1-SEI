@@ -10,6 +10,30 @@ const $description = $('.description')
 const $wineButton = $('#wineButton')
 const $foodButton = $('#foodButton')
 
+//switch buttons
+const $wineForm = $('.wine-pair')
+const $switchToWine = $('.wine-switch')
+
+const $foodForm = $('.section2')
+const $switchToDish = $('.dish-switch')
+
+const switchBoolean = true
+//switch function
+$switchToDish.on('click', function() {
+    $(this).css("background-color", "gray")
+    $foodForm.css("margin-top", "auto")
+     console.log('red')
+})
+
+$switchToWine.on('click', function() {
+    $(this).css("background-color", "gray")
+    $wineForm.css("margin-top", "auto")
+  
+     console.log('green')
+})
+
+
+
 // this function will be called when searching for a type of wine 
 function getTheWinePair(wine) {
     const url = `${base_url}dishes?apiKey=${api_key}&wine=${wine}`
@@ -19,7 +43,8 @@ function getTheWinePair(wine) {
 
     $.ajax(url)
     .then((pair) => {
-        
+        clearSection()
+        console.log(pair)
         // show the user input
         $title.html(`
         <h3>${wine}</h3>
@@ -51,6 +76,8 @@ function getTheDishPair(dish) {
     $.ajax(url)
     .then((pair) => {
         console.log(pair)
+       
+        clearSection()
 
          // show the user input
         $title.html(`
@@ -80,7 +107,10 @@ function getTheDishPair(dish) {
        // show the wine descrition on the page   
        $description.html(`<p>${pair.pairingText}</p>`)
 
-    })
+    }, function(error){
+        console.log('bad request: ', error);
+       }
+       )
 
 
 }
@@ -97,8 +127,9 @@ function getRecomandation(link) {
     $.ajax(url)
     .then((info) => {
         console.log(info)
+        clearSection()
         
-        $section3.empty()
+        
 
          //save the parameter into a variable
        const $items = info.recommendedWines
@@ -106,7 +137,8 @@ function getRecomandation(link) {
        $ulPairings.html("Wines:" )
        //loop through the li items and append them to ul
        for(let i = 0; i < $items.length; i++) {
-        $ulPairings.append(`<li>${$items[i].title}</li>`)
+        $ulPairings.append(`<li><a>${$items[i].title}</a></li>`)
+        $description
        }
         
     })
@@ -116,7 +148,7 @@ function getRecomandation(link) {
 //click event for the type of wine button
 $wineButton.on("click", (event) => {
      //prevent refresh
-     event.preventDefault()
+     event.preventDefault() 
     
       //grab the text from the input
      const inputText = $(".wine-pair input[type=text]").val()
@@ -131,6 +163,8 @@ $wineButton.on("click", (event) => {
 $foodButton.on("click", (event) => {
     //prevent refresh
     event.preventDefault()
+
+    
    
      //grab the text from the input
     const inputText = $(".food-pair input[type=text]").val()
@@ -139,6 +173,17 @@ $foodButton.on("click", (event) => {
     getTheDishPair(inputText)
 
     //clear input space after submiting the form
-    $("#myInput").val('')
+    $("#my-Input").val('')
 })
+
+
+//empty function that targets all the elements
+function clearSection() {
+    $image.empty()
+    $title.empty()
+    $ulPairings.empty()
+    $description.empty()
+}
+
+// getRecomandation("pinot noire")
 
