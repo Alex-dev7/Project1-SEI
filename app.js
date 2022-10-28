@@ -10,27 +10,40 @@ const $description = $('.description')
 const $wineButton = $('#wineButton')
 const $foodButton = $('#foodButton')
 
+
 //switch buttons
-const $wineForm = $('.wine-pair')
+const $wineForm = $('.section1')
 const $switchToWine = $('.wine-switch')
 
 const $foodForm = $('.section2')
 const $switchToDish = $('.dish-switch')
 
-const switchBoolean = true
-//switch function
+
+//click events with switch functions
 $switchToDish.on('click', function() {
-    $(this).css("background-color", "gray")
-    $foodForm.css("margin-top", "auto")
-     console.log('red')
+    $switchToWine.css("background-color", "transparent")
+    $wineForm.css(  'transform', 'translate(0px, -300px)')
+    $(this).css("background-color", "rgba(95, 150, 55, 0.39)")
+    $foodForm.css(  'transform', 'translate(0px, 0px)')
+
 })
 
 $switchToWine.on('click', function() {
-    $(this).css("background-color", "gray")
-    $wineForm.css("margin-top", "auto")
-  
-     console.log('green')
+    $switchToDish.css("background-color", "transparent")
+    $foodForm.css(  'transform', 'translate(0px, -300px)')
+    $(this).css("background-color", "rgba(95, 150, 55, 0.39)")
+    $wineForm.css(  'transform', 'translate(0px, 0px)')
+
 })
+
+//empty function that targets all the html elements in section3
+function clearSection() {
+    $image.empty()
+    $title.empty()
+    $ulPairings.empty()
+    $description.empty()
+}
+
 
 
 
@@ -63,13 +76,15 @@ function getTheWinePair(wine) {
        // show the wine descrition on the page   
        $description.html(`<p>${pair.text}</p>`)
 
-    })
+    }, function(error){
+        console.log('bad request: ', error);
+       })
     
 }
 
 // this function will be called when searching for a type of food
 function getTheDishPair(dish) {
-    const url = `${base_url}pairing?apiKey=${api_key}&food=${dish}`
+    const url = `${base_url}pairing?apiKey=${api_key}&food=${dish}&number=5`
 
     console.log(url)
 
@@ -86,6 +101,10 @@ function getTheDishPair(dish) {
 
         //save the parameter into a variable
        const $items = pair.pairedWines
+
+       // show the wine descrition on the page   
+       $description.html(`<p>${pair.pairingText}</p>`)
+
        // adding a header to the ul
        $ulPairings.html("Wine pairings:" )
        //loop through the li items and append them to ul
@@ -99,13 +118,12 @@ function getTheDishPair(dish) {
        $image.append($img)
        
        
-       const $titleTag =  $(`<a>${pair.productMatches[0].title}</a>`)
+       const $titleTag =  $(`<a target="_blank">${pair.productMatches[0].title}</a>`)
        $titleTag.attr('href', `${pair.productMatches[0].link}`)
        $image.append($titleTag)
 
 
-       // show the wine descrition on the page   
-       $description.html(`<p>${pair.pairingText}</p>`)
+       
 
     }, function(error){
         console.log('bad request: ', error);
@@ -115,35 +133,7 @@ function getTheDishPair(dish) {
 
 }
 
-// this function will be called when searching for a wine recomandation
-function getRecomandation(link) {
-    const url = `${base_url}recommendation?apiKey=${api_key}&wine=${link}&number=5`
 
-    //https://api.spoonacular.com/food/wine/recommendation?wine=merlot&number=2
-    //minRaiting parameter
-    
-    console.log(url)
-
-    $.ajax(url)
-    .then((info) => {
-        console.log(info)
-        clearSection()
-        
-        
-
-         //save the parameter into a variable
-       const $items = info.recommendedWines
-       // adding a header to the ul
-       $ulPairings.html("Wines:" )
-       //loop through the li items and append them to ul
-       for(let i = 0; i < $items.length; i++) {
-        $ulPairings.append(`<li><a>${$items[i].title}</a></li>`)
-        $description
-       }
-        
-    })
-
-}
 
 //click event for the type of wine button
 $wineButton.on("click", (event) => {
@@ -155,35 +145,28 @@ $wineButton.on("click", (event) => {
 
       // update section3 with api data
      getTheWinePair(inputText)
-
+    
+     
      //clear input space after submiting the form
      $("#myInput").val('')
 })
 
+
+//click event for the type of food button
 $foodButton.on("click", (event) => {
     //prevent refresh
     event.preventDefault()
 
-    
-   
      //grab the text from the input
     const inputText = $(".food-pair input[type=text]").val()
 
      // update section3 with api data
     getTheDishPair(inputText)
-
+    
     //clear input space after submiting the form
     $("#my-Input").val('')
 })
 
 
-//empty function that targets all the elements
-function clearSection() {
-    $image.empty()
-    $title.empty()
-    $ulPairings.empty()
-    $description.empty()
-}
 
-// getRecomandation("pinot noire")
 
