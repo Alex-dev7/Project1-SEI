@@ -23,17 +23,23 @@ const $switchToDish = $('.dish-switch')
 $switchToDish.on('click', function() {
     $switchToWine.css("background-color", "transparent")
     $wineForm.css(  'transform', 'translate(0px, -300px)')
-    $(this).css("background-color", "rgba(95, 150, 55, 0.39)")
+    $(this).css("background-color", "rgba(95, 150, 55, 0.7)")
     $foodForm.css(  'transform', 'translate(0px, 0px)')
-
+    $('header p').css('display', 'none')
+    $('.item3').css('display', 'block')
+    $('.item2').css('grid-column', '1')
+    
 })
 
 $switchToWine.on('click', function() {
     $switchToDish.css("background-color", "transparent")
     $foodForm.css(  'transform', 'translate(0px, -300px)')
-    $(this).css("background-color", "rgba(95, 150, 55, 0.39)")
+    $(this).css("background-color", "rgba(95, 150, 55, 0.7)")
     $wineForm.css(  'transform', 'translate(0px, 0px)')
-
+    $('header p').css('display', 'none')
+    $('.item3').css('display', 'none')
+    $('.item2').css('grid-column', '1 / 3')
+    
 })
 
 //empty function that targets all the html elements in section3
@@ -43,9 +49,6 @@ function clearSection() {
     $ulPairings.empty()
     $description.empty()
 }
-
-
-
 
 // this function will be called when searching for a type of wine 
 function getTheWinePair(wine) {
@@ -90,7 +93,7 @@ function getTheDishPair(dish) {
 
     $.ajax(url)
     .then((pair) => {
-        console.log(pair)
+        
        
         clearSection()
 
