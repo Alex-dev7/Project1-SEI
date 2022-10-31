@@ -1,7 +1,10 @@
+// my key
 const api_key = "2021cd53d5d342ad86dd928fbbf86f2f"
 
+//base api url
 const base_url = "https://api.spoonacular.com/food/wine/"
 
+//store html elements in variables
 const $section3 = $('.section3')
 const $title = $('.title')
 const $ulPairings = $('.ulPairings')
@@ -50,6 +53,8 @@ function clearSection() {
     $description.empty()
 }
 
+
+
 // this function will be called when searching for a type of wine 
 function getTheWinePair(wine) {
     const url = `${base_url}dishes?apiKey=${api_key}&wine=${wine}`
@@ -59,31 +64,54 @@ function getTheWinePair(wine) {
 
     $.ajax(url)
     .then((pair) => {
+
         clearSection()
         console.log(pair)
         // show the user input
         $title.html(`
         <h3>${wine}</h3>
         `)
-        console.log($title)
+        
         
         //save the parameter into a variable
        const $items = pair.pairings
-       // adding a header to the ul
+
+     if (pair.status === "failure") {
+        
+        const messageStatus = pair.message
+        $description.html(`<p>${messageStatus}</p>`)
+        console.log(messageStatus)
+        $('.item2').empty()
+        const $img = $('<img />')
+           $img.attr('src', '/img/sad-face.svg')
+           $('.item2').append($img)
+      
+       } else {
+
+        //    adding a header to the ul
        $ulPairings.html("Food pairings:" )
-       //loop through the li items and append them to ul
+
+    //    loop through the li items and append them to ul
        for(let i = 0; i < $items.length; i++) {
         $ulPairings.append(`<li>${$items[i]}</li>`)
        }
+     
 
-       // show the wine descrition on the page   
-       $description.html(`<p>${pair.text}</p>`)
+       // show the wine descrition on the page 
+       const text =  pair.text
+       $description.html(`<p>${text}</p>`)
+       }
+
+    
+      
 
     }, function(error){
         console.log('bad request: ', error);
        })
     
 }
+
+
 
 // this function will be called when searching for a type of food
 function getTheDishPair(dish) {
@@ -94,7 +122,7 @@ function getTheDishPair(dish) {
     $.ajax(url)
     .then((pair) => {
         
-       
+       console.log(pair)
         clearSection()
 
          // show the user input
@@ -120,7 +148,7 @@ function getTheDishPair(dish) {
        $img.attr('src', `${pair.productMatches[0].imageUrl}`)
        $image.append($img)
        
-       
+       // adding a product link
        const $titleTag =  $(`<a target="_blank">${pair.productMatches[0].title}</a>`)
        $titleTag.attr('href', `${pair.productMatches[0].link}`)
        $image.append($titleTag)
