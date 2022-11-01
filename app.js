@@ -54,7 +54,6 @@ function clearSection() {
 }
 
 
-
 // this function will be called when searching for a type of wine 
 function getTheWinePair(wine) {
     const url = `${base_url}dishes?apiKey=${api_key}&wine=${wine}`
@@ -71,61 +70,64 @@ function getTheWinePair(wine) {
         $title.html(`
         <h3>${wine}</h3>
         `)
+    
+        if (pair.status === "failure") {
         
+           // saving the "not found" message in a variable
+           const messageStatus = pair.message
+           $description.html(`<p>${messageStatus}. Please, try a different type of wine, ex: Merlot, Pinot Grigio, Malbec.</p>`)
         
-        //save the parameter into a variable
-       const $items = pair.pairings
-
-     if (pair.status === "failure") {
-        
-        const messageStatus = pair.message
-        $description.html(`<p>${messageStatus}</p>`)
-        console.log(messageStatus)
-        $('.item2').empty()
-        const $img = $('<img />')
+           // error icon
+           const $img = $('<img />')
            $img.attr('src', '/img/sad-face.svg')
            $('.item2').append($img)
       
        } else {
 
-        //    adding a header to the ul
-       $ulPairings.html("Food pairings:" )
+           //clear the section
+           $('.item2 img').remove()
 
-    //    loop through the li items and append them to ul
-       for(let i = 0; i < $items.length; i++) {
-        $ulPairings.append(`<li>${$items[i]}</li>`)
-       }
+           //save the parameter into a variable
+           const $items = pair.pairings
+
+           //adding a header to the ul
+           $ulPairings.html("Food pairings:" )
+
+           //loop through the li items and append them to ul
+           for(let i = 0; i < $items.length; i++) {
+           $ulPairings.append(`<li>${$items[i]}</li>`)
+           }
      
+           // show the wine descrition on the page 
+           const text =  pair.text
+           $description.html(`<p>${text}</p>`)
+      }
+    }, 
+    function(error) {
 
-       // show the wine descrition on the page 
-       const text =  pair.text
-       $description.html(`<p>${text}</p>`)
-       }
-
-    
-      
-
-    }, function(error){
         console.log('bad request: ', error);
+
        })
-    
 }
 
 
 
 // this function will be called when searching for a type of food
 function getTheDishPair(dish) {
-    const url = `${base_url}pairing?apiKey=${api_key}&food=${dish}&number=5`
+    const url = `${base_url}pairing?apiKey=${api_key}&food=${dish}`
 
     console.log(url)
 
     $.ajax(url)
     .then((pair) => {
         
-       console.log(pair)
+        console.log(pair)
         clearSection()
 
-         // show the user input
+        //removes the svg icon if needed
+        $('.item2 img').remove()
+
+        // show the user input
         $title.html(`
         <h3>${dish}</h3>
         `)
@@ -133,15 +135,28 @@ function getTheDishPair(dish) {
         //save the parameter into a variable
        const $items = pair.pairedWines
 
-       // show the wine descrition on the page   
-       $description.html(`<p>${pair.pairingText}</p>`)
+       if (pair.status === "failure") {
 
-       // adding a header to the ul
+             // saving the "not found" message in a variable
+             const messageStatus = pair.message
+             $description.html(`<p>${messageStatus}. Please, try a different type of dish, ingredient or cuisine.</p>`)
+          
+             // error icon
+             const $img = $('<img />')
+             $img.attr('src', '/img/sad-face.svg')
+             $('.item2').append($img)
+           
+
+       } else {
+           // adding a header to the ul
        $ulPairings.html("Wine pairings:" )
        //loop through the li items and append them to ul
        for(let i = 0; i < $items.length; i++) {
         $ulPairings.append(`<li>${$items[i]}</li>`)
        }
+
+       // show the wine descrition on the page   
+       $description.html(`<p>${pair.pairingText}</p>`)
 
        //adding a product match image
        const $img = $('<img />')
@@ -152,19 +167,16 @@ function getTheDishPair(dish) {
        const $titleTag =  $(`<a target="_blank">${pair.productMatches[0].title}</a>`)
        $titleTag.attr('href', `${pair.productMatches[0].link}`)
        $image.append($titleTag)
-
-
        
+
+       //for the future me, implement a carousel on the $image div for the product matches, add &number=5 at the end of url for 5 product matches or more
+       }
 
     }, function(error){
         console.log('bad request: ', error);
        }
        )
-
-
 }
-
-
 
 //click event for the type of wine button
 $wineButton.on("click", (event) => {
@@ -177,7 +189,6 @@ $wineButton.on("click", (event) => {
       // update section3 with api data
      getTheWinePair(inputText)
     
-     
      //clear input space after submiting the form
      $("#myInput").val('')
 })
@@ -188,13 +199,13 @@ $foodButton.on("click", (event) => {
     //prevent refresh
     event.preventDefault()
 
-     //grab the text from the input
+    //grab the text from the input
     const inputText = $(".food-pair input[type=text]").val()
 
      // update section3 with api data
     getTheDishPair(inputText)
     
-    //clear input space after submiting the form
+     //clear input space after submiting the form
     $("#my-Input").val('')
 })
 
