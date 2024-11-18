@@ -1,5 +1,5 @@
 // my key
-const api_key = "2021cd53d5d342ad86dd928fbbf86f2f"
+const api_key = process.env.API_KEY
 
 //base api url
 const base_url = "https://api.spoonacular.com/food/wine/"
@@ -57,9 +57,6 @@ function clearSection() {
 // this function will be called when searching for a type of wine 
 function getTheWinePair(wine) {
     const url = `${base_url}dishes?apiKey=${api_key}&wine=${wine}`
-
-    console.log(url)
-    //https://api.spoonacular.com/food/wine/dishes?apiKey=2021cd53d5d342ad86dd928fbbf86f2f&wine=frascati
 
     $.ajax(url)
     .then((pair) => {
