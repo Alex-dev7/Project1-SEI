@@ -1,5 +1,4 @@
-// my key
-const api_key = process.env.API_KEY
+const x = "2021cd53d5d342ad86dd928fbbf86f2f"
 
 //base api url
 const base_url = "https://api.spoonacular.com/food/wine/"
@@ -56,7 +55,9 @@ function clearSection() {
 
 // this function will be called when searching for a type of wine 
 function getTheWinePair(wine) {
-    const url = `${base_url}dishes?apiKey=${api_key}&wine=${wine}`
+    const searchWineTerm = wine.split(' ').join('%20')
+
+    const url = `${base_url}dishes?apiKey=${x}&wine=${searchWineTerm}`
 
     $.ajax(url)
     .then((pair) => {
@@ -98,6 +99,7 @@ function getTheWinePair(wine) {
            // show the wine descrition on the page 
            const text =  pair.text
            $description.html(`<p>${text}</p>`)
+
       }
     }, 
     function(error) {
@@ -111,7 +113,9 @@ function getTheWinePair(wine) {
 
 // this function will be called when searching for a type of food
 function getTheDishPair(dish) {
-    const url = `${base_url}pairing?apiKey=${api_key}&food=${dish}`
+    const searchDishTerm = dish.split(' ').join('%20')
+
+    const url = `${base_url}pairing?apiKey=${x}&food=${searchDishTerm}`
 
     console.log(url)
 
